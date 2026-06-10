@@ -319,19 +319,26 @@
     margin-bottom: 8px;
   }
 
+  .feedback-row { gap: 10px; }
+
   .feedback-btn {
     background: var(--bg);
     border: 1.5px solid var(--divider);
-    border-radius: 20px;
-    padding: 7px 14px;
-    font-size: 19px;
+    border-radius: 24px;
+    padding: 11px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--text-sub);
     cursor: pointer;
-    transition: transform 0.12s, border-color 0.12s;
+    transition: all 0.15s;
+    font-family: inherit;
     line-height: 1;
   }
 
-  .feedback-btn:hover  { transform: scale(1.15); border-color: #B8B3AC; }
-  .feedback-btn.picked { border-color: var(--accent); background: #FFF5F5; }
+  .feedback-btn:hover { border-color: #B8B3AC; color: var(--text); }
+  .feedback-btn.picked-good { border-color: var(--accent); background: #FFF5F5; color: var(--accent); }
+  .feedback-btn.picked-bad  { border-color: var(--divider); background: var(--input-bg); color: var(--text-sub); }
 
   .next-btn {
     background: var(--accent);
@@ -475,8 +482,6 @@
     towa:  { status: "トワが整理しました",  name: "トワ" },
   };
 
-  const FEEDBACK_EMOJI = ["😂","🔥","👊","😤","🤯","💀","😶","✂️","👏","🫠"];
-
   document.getElementById('ventInput').addEventListener('input', () => {
     document.getElementById('submitBtn').disabled =
       document.getElementById('ventInput').value.trim().length === 0;
@@ -539,13 +544,15 @@
   function buildFeedbackRow() {
     const row = document.getElementById('feedbackRow');
     row.innerHTML = '';
-    [...FEEDBACK_EMOJI].sort(() => Math.random() - 0.5).slice(0, 5).forEach(em => {
+    [['よかった', 'good'], ['いまいち', 'bad']].forEach(([label, type]) => {
       const btn = document.createElement('button');
       btn.className   = 'feedback-btn';
-      btn.textContent = em;
+      btn.textContent = label;
       btn.onclick = () => {
-        row.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('picked'));
-        btn.classList.add('picked');
+        row.querySelectorAll('.feedback-btn').forEach(b => {
+          b.classList.remove('picked-good', 'picked-bad');
+        });
+        btn.classList.add(`picked-${type}`);
       };
       row.appendChild(btn);
     });
