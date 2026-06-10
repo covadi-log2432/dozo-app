@@ -18,9 +18,9 @@
     --nagi-sub:     #FFD0A8;
     --nagi-light:   #FFF1E4;
 
-    --shino:        #7E6BC4;
-    --shino-sub:    #C9BFF0;
-    --shino-light:  #F0ECFF;
+    --shino:        #5E3DC6;
+    --shino-sub:    #B7A8F2;
+    --shino-light:  #ECE8FF;
 
     --towa:         #67B7DC;
     --towa-sub:     #BDE7F7;
@@ -375,6 +375,19 @@
 
   .fade-in { animation: fadeIn 0.3s ease; }
 
+  #screen-response.shino-response .response-text {
+    animation: shinoReveal 1.2s ease;
+  }
+
+  @keyframes shinoReveal {
+    from { opacity: 0; letter-spacing: 0.15em; }
+    to   { opacity: 1; letter-spacing: 0.02em; }
+  }
+
+  #screen-response.shino-response .response-body {
+    background: #ECE8FF;
+  }
+
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(5px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -526,8 +539,11 @@
       document.getElementById('responseText').textContent = response;
       buildFeedbackRow();
 
+      const respScreen = document.getElementById('screen-response');
+      respScreen.classList.remove('shino-response');
+      if (char === 'shino') respScreen.classList.add('shino-response');
       showScreen('screen-response');
-      document.getElementById('screen-response').classList.add('fade-in');
+      respScreen.classList.add('fade-in');
     }, 700);
   }
 
