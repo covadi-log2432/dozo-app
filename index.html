@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>どうぞ。</title>
+<style>
+  :root {
+    --bg:           #F5F4F1;
+    --card:         #FFFFFF;
+    --input-bg:     #ECE9E4;
+    --text:         #2B2F36;
+    --text-sub:     #737B87;
+    --divider:      #D9D4CD;
+    --accent:       #FF6B6B;
+
+    --nagi:         #FF9F5A;
+    --nagi-sub:     #FFD0A8;
+    --nagi-light:   #FFF1E4;
+
+    --shino:        #7E6BC4;
+    --shino-sub:    #C9BFF0;
+    --shino-light:  #F0ECFF;
+
+    --towa:         #67B7DC;
+    --towa-sub:     #BDE7F7;
+    --towa-light:   #EDF8FC;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .screen { display: none; width: 100%; max-width: 480px; }
+  .screen.active { display: flex; flex-direction: column; }
+
+  /* ===== SCREEN 1: TOP ===== */
+  #screen-top {
+    min-height: 100vh;
+    padding: 0 24px 56px;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .top-title-block { text-align: center; }
+
+  .top-title {
+    font-size: 56px;
+    font-weight: 300;
+    letter-spacing: 0.4em;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .top-sub {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-sub);
+    letter-spacing: 0.08em;
+  }
+
+  .input-block { display: flex; flex-direction: column; gap: 12px; }
+
+  .input-label {
+    font-size: 13px;
+    color: var(--text-sub);
+    letter-spacing: 0.06em;
+    padding-left: 2px;
+  }
+
+  .vent-wrap {
+    background: var(--input-bg);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  .vent-textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 22px 22px 10px;
+    color: var(--text);
+    font-size: 16px;
+    font-family: inherit;
+    line-height: 1.85;
+    resize: none;
+    min-height: 160px;
+    outline: none;
+  }
+
+  .vent-textarea::placeholder { color: #B8B3AC; }
+
+  .submit-row {
+    padding: 0 18px 18px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .submit-btn {
+    background: var(--accent);
+    border: none;
+    border-radius: 12px;
+    padding: 13px 32px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    font-family: inherit;
+  }
+
+  .submit-btn:hover { opacity: 0.85; }
+  .submit-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* ===== SCREEN 2: CHAR SELECT ===== */
+  #screen-char {
+    min-height: 100vh;
+    padding: 64px 24px 56px;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .char-select-label {
+    font-size: 14px;
+    color: var(--text-sub);
+    letter-spacing: 0.08em;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .char-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .char-option {
+    background: var(--card);
+    border: none;
+    border-radius: 18px;
+    padding: 22px 24px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    text-align: left;
+    width: 100%;
+    font-family: inherit;
+    color: var(--text);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .char-option::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+    border-radius: 18px 0 0 18px;
+  }
+
+  .char-option.nagi-opt::before  { background: var(--nagi); }
+  .char-option.shino-opt::before { background: var(--shino); }
+  .char-option.towa-opt::before  { background: var(--towa); }
+
+  .char-option:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.07); }
+
+  .char-option:active { transform: translateY(0); }
+
+  .char-option-body { flex: 1; padding-left: 18px; }
+
+  .char-option-name {
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .char-option.nagi-opt  .char-option-name { color: var(--nagi); }
+  .char-option.shino-opt .char-option-name { color: var(--shino); }
+  .char-option.towa-opt  .char-option-name { color: var(--towa); }
+
+  .char-option-role {
+    font-size: 12px;
+    color: var(--text-sub);
+    letter-spacing: 0.04em;
+  }
+
+  .char-option-arrow {
+    font-size: 20px;
+    color: var(--divider);
+  }
+
+  .back-btn {
+    background: none;
+    border: none;
+    color: var(--text-sub);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 0.06em;
+    padding: 8px 0;
+    text-align: center;
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .back-btn:hover { color: var(--text); }
+
+  /* ===== LOADING ===== */
+  .loading-screen {
+    display: none;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 480px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .loading-screen.active { display: flex; }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--divider);
+    animation: blink 1.2s infinite;
+  }
+
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes blink {
+    0%,80%,100% { opacity: 0.25; }
+    40%          { opacity: 1; }
+  }
+
+  /* ===== SCREEN 3: RESPONSE ===== */
+  #screen-response {
+    min-height: 100vh;
+    padding: 0 0 56px;
+  }
+
+  .response-hero {
+    padding: 40px 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .response-hero.nagi  { background: var(--nagi-light); }
+  .response-hero.shino { background: var(--shino-light); }
+  .response-hero.towa  { background: var(--towa-light); }
+
+  .response-status {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+  }
+
+  .response-status.nagi  { color: var(--nagi); }
+  .response-status.shino { color: var(--shino); }
+  .response-status.towa  { color: var(--towa); }
+
+  .response-char-name {
+    font-size: 13px;
+    color: var(--text-sub);
+    letter-spacing: 0.06em;
+  }
+
+  .response-strip {
+    height: 3px;
+    width: 100%;
+  }
+
+  .response-strip.nagi  { background: linear-gradient(90deg, var(--nagi) 0%, var(--nagi-sub) 100%); }
+  .response-strip.shino { background: linear-gradient(90deg, var(--shino) 0%, var(--shino-sub) 100%); }
+  .response-strip.towa  { background: linear-gradient(90deg, var(--towa) 0%, var(--towa-sub) 100%); }
+
+  .response-body {
+    padding: 32px 28px 28px;
+    background: var(--card);
+    flex: 1;
+  }
+
+  .response-text {
+    font-size: 17px;
+    line-height: 2.2;
+    white-space: pre-wrap;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+
+  .response-footer {
+    padding: 28px 28px 0;
+    background: var(--card);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .feedback-label {
+    font-size: 11px;
+    color: var(--text-sub);
+    letter-spacing: 0.12em;
+    margin-bottom: 4px;
+  }
+
+  .feedback-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .feedback-btn {
+    background: var(--bg);
+    border: 1.5px solid var(--divider);
+    border-radius: 20px;
+    padding: 7px 14px;
+    font-size: 19px;
+    cursor: pointer;
+    transition: transform 0.12s, border-color 0.12s;
+    line-height: 1;
+  }
+
+  .feedback-btn:hover  { transform: scale(1.15); border-color: #B8B3AC; }
+  .feedback-btn.picked { border-color: var(--accent); background: #FFF5F5; }
+
+  .next-btn {
+    background: var(--accent);
+    border: none;
+    border-radius: 14px;
+    padding: 17px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    font-family: inherit;
+    width: 100%;
+  }
+
+  .next-btn:hover { opacity: 0.85; }
+
+  .retry-btn {
+    background: none;
+    border: 1.5px solid var(--divider);
+    border-radius: 14px;
+    padding: 15px;
+    color: var(--text-sub);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    font-family: inherit;
+    width: 100%;
+  }
+
+  .retry-btn:hover { border-color: #B8B3AC; color: var(--text); }
+
+  .fade-in { animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- 画面1: 入力 -->
+<div class="screen active" id="screen-top">
+  <div class="top-title-block">
+    <div class="top-title">どうぞ。</div>
+    <div class="top-sub">今日のイライラ、置いてってください。</div>
+  </div>
+
+  <div class="input-block">
+    <div class="input-label">今日なにに腹立った？</div>
+    <div class="vent-wrap">
+      <textarea
+        class="vent-textarea"
+        id="ventInput"
+        placeholder="は？？？
+なんなんあいつ
+意味わからん"
+        rows="5"
+      ></textarea>
+      <div class="submit-row">
+        <button class="submit-btn" id="submitBtn" onclick="goToCharSelect()" disabled>
+          ぶちまける
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 画面2: キャラ選択 -->
+<div class="screen" id="screen-char">
+  <div class="char-select-label">どう処理する？</div>
+
+  <div class="char-list">
+    <button class="char-option nagi-opt" onclick="selectAndProcess('nagi')">
+      <div class="char-option-body">
+        <div class="char-option-name">ナギ</div>
+        <div class="char-option-role">笑い飛ばす</div>
+      </div>
+      <div class="char-option-arrow">›</div>
+    </button>
+
+    <button class="char-option shino-opt" onclick="selectAndProcess('shino')">
+      <div class="char-option-body">
+        <div class="char-option-name">シノ</div>
+        <div class="char-option-role">黙らせる</div>
+      </div>
+      <div class="char-option-arrow">›</div>
+    </button>
+
+    <button class="char-option towa-opt" onclick="selectAndProcess('towa')">
+      <div class="char-option-body">
+        <div class="char-option-name">トワ</div>
+        <div class="char-option-role">切り捨てる</div>
+      </div>
+      <div class="char-option-arrow">›</div>
+    </button>
+  </div>
+
+  <button class="back-btn" onclick="showScreen('screen-top')">← もどる</button>
+</div>
+
+<!-- ローディング -->
+<div class="loading-screen" id="screen-loading">
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
+<!-- 画面3: 返答 -->
+<div class="screen" id="screen-response">
+  <div class="response-hero" id="respHero">
+    <div class="response-status" id="respStatus"></div>
+    <div class="response-char-name" id="respCharName"></div>
+  </div>
+  <div class="response-strip" id="respStrip"></div>
+
+  <div class="response-body">
+    <div class="response-text" id="responseText"></div>
+  </div>
+
+  <div class="response-footer">
+    <div class="feedback-label">どうだった？</div>
+    <div class="feedback-row" id="feedbackRow"></div>
+    <button class="next-btn" onclick="goNext()">もう一件いく</button>
+    <button class="retry-btn" id="retryBtn" onclick="retryResponse()">もう一度</button>
+  </div>
+</div>
+
+<script src="dozo_scripts.js"></script>
+<script>
+  let currentChar = null;
+  let lastInput   = "";
+  let lastIsCrisis = false;
+
+  const CHAR_META = {
+    nagi:  { status: "ナギが爆破しました",  name: "ナギ" },
+    shino: { status: "シノが黙らせました",  name: "シノ" },
+    towa:  { status: "トワが整理しました",  name: "トワ" },
+  };
+
+  const FEEDBACK_EMOJI = ["😂","🔥","👊","😤","🤯","💀","😶","✂️","👏","🫠"];
+
+  document.getElementById('ventInput').addEventListener('input', () => {
+    document.getElementById('submitBtn').disabled =
+      document.getElementById('ventInput').value.trim().length === 0;
+  });
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen, .loading-screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function goToCharSelect() {
+    const text = document.getElementById('ventInput').value.trim();
+    if (!text) return;
+    lastInput = text;
+    showScreen('screen-char');
+  }
+
+  function selectAndProcess(char) {
+    currentChar  = char;
+    lastIsCrisis = checkCrisis(lastInput);
+    showScreen('screen-loading');
+
+    setTimeout(() => {
+      const meta = CHAR_META[char];
+
+      document.getElementById('respHero').className      = `response-hero ${char}`;
+      document.getElementById('respStatus').className    = `response-status ${char}`;
+      document.getElementById('respStatus').textContent  = meta.status;
+      document.getElementById('respCharName').textContent = meta.name;
+      document.getElementById('respStrip').className     = `response-strip ${char}`;
+
+      let response;
+      if (lastIsCrisis) {
+        response = generateCrisisResponse(char);
+        document.getElementById('retryBtn').style.display = 'none';
+      } else {
+        response = generateResponse(char, lastInput);
+        document.getElementById('retryBtn').style.display = '';
+      }
+
+      document.getElementById('responseText').textContent = response;
+      buildFeedbackRow();
+
+      showScreen('screen-response');
+      document.getElementById('screen-response').classList.add('fade-in');
+    }, 700);
+  }
+
+  function retryResponse() {
+    if (!lastInput || !currentChar) return;
+    showScreen('screen-loading');
+    setTimeout(() => {
+      document.getElementById('responseText').textContent = generateResponse(currentChar, lastInput);
+      buildFeedbackRow();
+      showScreen('screen-response');
+    }, 500);
+  }
+
+  function buildFeedbackRow() {
+    const row = document.getElementById('feedbackRow');
+    row.innerHTML = '';
+    [...FEEDBACK_EMOJI].sort(() => Math.random() - 0.5).slice(0, 5).forEach(em => {
+      const btn = document.createElement('button');
+      btn.className   = 'feedback-btn';
+      btn.textContent = em;
+      btn.onclick = () => {
+        row.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('picked'));
+        btn.classList.add('picked');
+      };
+      row.appendChild(btn);
+    });
+  }
+
+  function goNext() {
+    document.getElementById('ventInput').value = "";
+    document.getElementById('submitBtn').disabled = true;
+    lastInput    = "";
+    currentChar  = null;
+    showScreen('screen-top');
+  }
+
+  document.getElementById('ventInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey &&
+        !document.getElementById('submitBtn').disabled) {
+      e.preventDefault();
+      goToCharSelect();
+    }
+  });
+</script>
+</body>
+</html>
