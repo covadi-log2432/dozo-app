@@ -41,57 +41,45 @@
 
   /* ===== LOADING ===== */
   .loading-screen {
-    display: none;
-    min-height: 100vh;
+    display: none; min-height: 100vh;
     width: 100%; max-width: 480px;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    align-items: center; justify-content: center; gap: 8px;
   }
   .loading-screen.active { display: flex; }
   .dot {
     width: 8px; height: 8px; border-radius: 50%;
-    background: var(--divider);
-    animation: blink 1.2s infinite;
+    background: var(--divider); animation: blink 1.2s infinite;
   }
   .dot:nth-child(2) { animation-delay: 0.2s; }
   .dot:nth-child(3) { animation-delay: 0.4s; }
   @keyframes blink { 0%,80%,100%{opacity:.25} 40%{opacity:1} }
 
-  /* ===== TOP ===== */
-  #screen-top {
-    min-height: 100vh;
-    padding: 0 24px 56px;
-    justify-content: center;
-    gap: 40px;
+  /* ===== 共通 ===== */
+  .section-label {
+    font-size: 14px; color: var(--text-sub);
+    letter-spacing: .08em; text-align: center;
   }
-  .top-title { font-size: 56px; font-weight: 300; letter-spacing: .4em; text-align: center; line-height: 1; }
-  .top-sub { font-size: 13px; color: var(--text-sub); letter-spacing: .08em; text-align: center; margin-top: 14px; }
-  .input-block { display: flex; flex-direction: column; gap: 12px; }
-  .input-label { font-size: 13px; color: var(--text-sub); letter-spacing: .06em; padding-left: 2px; }
-  .vent-wrap { background: var(--input-bg); border-radius: 18px; overflow: hidden; }
-  .vent-textarea {
-    width: 100%; background: transparent; border: none;
-    padding: 22px 22px 10px; color: var(--text);
-    font-size: 16px; font-family: inherit; line-height: 1.85;
-    resize: none; min-height: 150px; outline: none;
+  .back-btn {
+    background: none; border: none; color: var(--text-sub);
+    font-size: 13px; cursor: pointer; font-family: inherit;
+    letter-spacing: .06em; padding: 8px 0; text-align: center; width: 100%;
   }
-  .vent-textarea::placeholder { color: #B8B3AC; }
-  .submit-row { padding: 0 18px 18px; display: flex; justify-content: flex-end; }
-  .submit-btn {
-    background: var(--accent); border: none; border-radius: 12px;
-    padding: 13px 32px; color: #fff; font-size: 15px; font-weight: 500;
-    letter-spacing: .18em; cursor: pointer; transition: opacity .15s; font-family: inherit;
-  }
-  .submit-btn:hover { opacity: .85; }
-  .submit-btn:disabled { opacity: .25; cursor: not-allowed; }
+  .back-btn:hover { color: var(--text); }
 
-  /* ===== CHAR SELECT ===== */
+  /* ===== 画面1: キャラ選択 ===== */
   #screen-char {
-    min-height: 100vh; padding: 64px 24px 56px;
-    gap: 20px; justify-content: center;
+    min-height: 100vh; padding: 0 24px 56px;
+    justify-content: center; gap: 32px;
   }
-  .section-label { font-size: 14px; color: var(--text-sub); letter-spacing: .08em; text-align: center; }
+  .top-title-block { text-align: center; }
+  .top-title {
+    font-size: 56px; font-weight: 300;
+    letter-spacing: .4em; line-height: 1;
+  }
+  .top-sub {
+    font-size: 13px; color: var(--text-sub);
+    letter-spacing: .08em; margin-top: 14px;
+  }
   .char-list { display: flex; flex-direction: column; gap: 12px; }
   .char-option {
     background: var(--card); border: none; border-radius: 18px;
@@ -117,14 +105,48 @@
   .char-option-role { font-size: 12px; color: var(--text-sub); }
   .char-option-arrow { font-size: 20px; color: var(--divider); }
 
-  /* ===== CATEGORY SELECT ===== */
+  /* ===== 画面2: 入力 ===== */
+  #screen-top {
+    min-height: 100vh; padding: 56px 24px 56px;
+    justify-content: center; gap: 24px;
+  }
+  .char-badge {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 18px; border-radius: 12px;
+    background: var(--card); width: fit-content; align-self: center;
+  }
+  .char-badge-bar { width: 4px; height: 20px; border-radius: 2px; }
+  .char-badge-bar.nagi  { background: var(--nagi); }
+  .char-badge-bar.shino { background: var(--shino); }
+  .char-badge-bar.towa  { background: var(--towa); }
+  .char-badge-name { font-size: 14px; font-weight: 500; letter-spacing: .06em; }
+  .char-badge-name.nagi  { color: var(--nagi); }
+  .char-badge-name.shino { color: var(--shino); }
+  .char-badge-name.towa  { color: var(--towa); }
+  .input-label { font-size: 13px; color: var(--text-sub); letter-spacing: .06em; padding-left: 2px; }
+  .vent-wrap { background: var(--input-bg); border-radius: 18px; overflow: hidden; }
+  .vent-textarea {
+    width: 100%; background: transparent; border: none;
+    padding: 22px 22px 10px; color: var(--text);
+    font-size: 16px; font-family: inherit; line-height: 1.85;
+    resize: none; min-height: 150px; outline: none;
+  }
+  .vent-textarea::placeholder { color: #B8B3AC; }
+  .submit-row { padding: 0 18px 18px; display: flex; justify-content: flex-end; }
+  .submit-btn {
+    background: var(--accent); border: none; border-radius: 12px;
+    padding: 13px 32px; color: #fff; font-size: 15px; font-weight: 500;
+    letter-spacing: .18em; cursor: pointer; transition: opacity .15s; font-family: inherit;
+  }
+  .submit-btn:hover { opacity: .85; }
+  .submit-btn:disabled { opacity: .25; cursor: not-allowed; }
+
+  /* ===== 画面3: カテゴリ ===== */
   #screen-category {
     min-height: 100vh; padding: 56px 24px 56px;
     gap: 20px; justify-content: flex-start;
   }
-  .category-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
-  }
+  .category-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
   .category-btn {
     background: var(--card); border: 1.5px solid var(--divider);
     border-radius: 14px; padding: 16px 12px;
@@ -133,22 +155,15 @@
     transition: all .15s; letter-spacing: .03em;
   }
   .category-btn:hover { border-color: var(--text-sub); background: var(--bg); }
-  .category-btn.selected { border-color: var(--active-color, var(--accent)); background: var(--active-bg, #FFF5F5); color: var(--active-color, var(--accent)); }
-
-  /* ===== BACK BTN ===== */
-  .back-btn {
-    background: none; border: none; color: var(--text-sub);
-    font-size: 13px; cursor: pointer; font-family: inherit;
-    letter-spacing: .06em; padding: 8px 0; text-align: center; width: 100%;
+  .category-btn.selected {
+    border-color: var(--active-color, var(--accent));
+    background: var(--active-bg, #FFF5F5);
+    color: var(--active-color, var(--accent));
   }
-  .back-btn:hover { color: var(--text); }
 
-  /* ===== RESPONSE ===== */
+  /* ===== 画面4: 返答 ===== */
   #screen-response { min-height: 100vh; padding: 0 0 56px; }
-  .response-hero {
-    padding: 40px 28px 28px;
-    display: flex; flex-direction: column; gap: 6px;
-  }
+  .response-hero { padding: 40px 28px 28px; display: flex; flex-direction: column; gap: 6px; }
   .response-hero.nagi  { background: var(--nagi-light); }
   .response-hero.shino { background: var(--shino-light); }
   .response-hero.towa  { background: var(--towa-light); }
@@ -169,9 +184,8 @@
   .feedback-btn {
     background: var(--bg); border: 1.5px solid var(--divider);
     border-radius: 24px; padding: 10px 20px;
-    font-size: 13px; font-weight: 500; letter-spacing: .06em;
-    color: var(--text-sub); cursor: pointer;
-    transition: all .15s; font-family: inherit;
+    font-size: 13px; font-weight: 500; color: var(--text-sub);
+    cursor: pointer; transition: all .15s; font-family: inherit;
   }
   .feedback-btn:hover { border-color: #B8B3AC; color: var(--text); }
   .feedback-btn.picked { border-color: var(--accent); background: #FFF5F5; color: var(--accent); }
@@ -185,8 +199,7 @@
   .retry-btn {
     background: none; border: 1.5px solid var(--divider); border-radius: 14px;
     padding: 15px; color: var(--text-sub); font-size: 13px;
-    letter-spacing: .1em; cursor: pointer;
-    transition: border-color .15s, color .15s;
+    cursor: pointer; transition: border-color .15s,color .15s;
     font-family: inherit; width: 100%;
   }
   .retry-btn:hover { border-color: #B8B3AC; color: var(--text); }
@@ -197,60 +210,66 @@
 </head>
 <body>
 
-<!-- 画面1: 入力 -->
-<div class="screen active" id="screen-top">
-  <div>
+<!-- 画面1: キャラ選択 -->
+<div class="screen active" id="screen-char">
+  <div class="top-title-block">
     <div class="top-title">どうぞ。</div>
     <div class="top-sub">今日のイライラ、置いてってください。</div>
   </div>
-  <div class="input-block">
-    <div class="input-label">今日なにに腹立った？</div>
+  <div>
+    <div class="section-label" style="margin-bottom:16px">だれに処理してもらう？</div>
+    <div class="char-list">
+      <button class="char-option nagi-opt" onclick="selectChar('nagi')">
+        <div class="char-option-body">
+          <div class="char-option-name">ナギ</div>
+          <div class="char-option-role">笑い飛ばす</div>
+        </div>
+        <div class="char-option-arrow">›</div>
+      </button>
+      <button class="char-option shino-opt" onclick="selectChar('shino')">
+        <div class="char-option-body">
+          <div class="char-option-name">シノ</div>
+          <div class="char-option-role">黙らせる</div>
+        </div>
+        <div class="char-option-arrow">›</div>
+      </button>
+      <button class="char-option towa-opt" onclick="selectChar('towa')">
+        <div class="char-option-body">
+          <div class="char-option-name">トワ</div>
+          <div class="char-option-role">整理する</div>
+        </div>
+        <div class="char-option-arrow">›</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 画面2: 入力 -->
+<div class="screen" id="screen-top">
+  <div class="char-badge" id="charBadge">
+    <div class="char-badge-bar" id="charBadgeBar"></div>
+    <div class="char-badge-name" id="charBadgeName"></div>
+  </div>
+  <div>
+    <div class="input-label" style="margin-bottom:10px">今日なにに腹立った？</div>
     <div class="vent-wrap">
       <textarea class="vent-textarea" id="ventInput"
         placeholder="は？？？
 なんなんあいつ
 意味わからん" rows="5"></textarea>
       <div class="submit-row">
-        <button class="submit-btn" id="submitBtn" onclick="goToChar()" disabled>ぶちまける</button>
+        <button class="submit-btn" id="submitBtn" onclick="goToCategory()" disabled>ぶちまける</button>
       </div>
     </div>
   </div>
-</div>
-
-<!-- 画面2: キャラ選択 -->
-<div class="screen" id="screen-char">
-  <div class="section-label">どう処理する？</div>
-  <div class="char-list">
-    <button class="char-option nagi-opt" onclick="selectChar('nagi')">
-      <div class="char-option-body">
-        <div class="char-option-name">ナギ</div>
-        <div class="char-option-role">笑い飛ばす</div>
-      </div>
-      <div class="char-option-arrow">›</div>
-    </button>
-    <button class="char-option shino-opt" onclick="selectChar('shino')">
-      <div class="char-option-body">
-        <div class="char-option-name">シノ</div>
-        <div class="char-option-role">黙らせる</div>
-      </div>
-      <div class="char-option-arrow">›</div>
-    </button>
-    <button class="char-option towa-opt" onclick="selectChar('towa')">
-      <div class="char-option-body">
-        <div class="char-option-name">トワ</div>
-        <div class="char-option-role">整理する</div>
-      </div>
-      <div class="char-option-arrow">›</div>
-    </button>
-  </div>
-  <button class="back-btn" onclick="showScreen('screen-top')">← もどる</button>
+  <button class="back-btn" onclick="showScreen('screen-char')">← もどる</button>
 </div>
 
 <!-- 画面3: カテゴリ選択 -->
 <div class="screen" id="screen-category">
   <div class="section-label">どんな怒り？</div>
   <div class="category-grid" id="categoryGrid"></div>
-  <button class="back-btn" onclick="showScreen('screen-char')">← もどる</button>
+  <button class="back-btn" onclick="showScreen('screen-top')">← もどる</button>
 </div>
 
 <!-- ローディング -->
@@ -282,15 +301,13 @@
   let currentCategory = null;
   let lastInput       = "";
   let lastIsCrisis    = false;
-  let pickedReaction  = null;
 
   const CHAR_META = {
-    nagi:  { status: "ナギが爆破しました",  name: "ナギ",  colorVar: "--nagi" },
-    shino: { status: "シノが黙らせました",  name: "シノ",  colorVar: "--shino" },
-    towa:  { status: "トワが整理しました",  name: "トワ",  colorVar: "--towa" },
+    nagi:  { status: "ナギが爆破しました",  name: "ナギ" },
+    shino: { status: "シノが黙らせました",  name: "シノ" },
+    towa:  { status: "トワが整理しました",  name: "トワ" },
   };
 
-  // 入力監視
   document.getElementById('ventInput').addEventListener('input', () => {
     document.getElementById('submitBtn').disabled =
       document.getElementById('ventInput').value.trim().length === 0;
@@ -299,7 +316,8 @@
   document.getElementById('ventInput').addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey &&
         !document.getElementById('submitBtn').disabled) {
-      e.preventDefault(); goToChar();
+      e.preventDefault();
+      goToCategory();
     }
   });
 
@@ -310,32 +328,34 @@
     window.scrollTo(0, 0);
   }
 
-  // Step1: 入力→キャラ選択
-  function goToChar() {
+  // Step1: キャラ選択→入力画面
+  function selectChar(char) {
+    currentChar = char;
+    // バッジ更新
+    document.getElementById('charBadgeBar').className = `char-badge-bar ${char}`;
+    document.getElementById('charBadgeName').className = `char-badge-name ${char}`;
+    document.getElementById('charBadgeName').textContent = CHAR_META[char].name;
+    showScreen('screen-top');
+  }
+
+  // Step2: 入力→カテゴリ選択
+  function goToCategory() {
     const text = document.getElementById('ventInput').value.trim();
     if (!text) return;
     lastInput = text;
-    showScreen('screen-char');
-  }
-
-  // Step2: キャラ選択→カテゴリ選択
-  function selectChar(char) {
-    currentChar = char;
-    buildCategoryGrid(char);
+    buildCategoryGrid();
     showScreen('screen-category');
   }
 
-  function buildCategoryGrid(char) {
+  function buildCategoryGrid() {
     const grid = document.getElementById('categoryGrid');
     grid.innerHTML = '';
-    const colorVar = getComputedStyle(document.documentElement)
-      .getPropertyValue(`--${char}`).trim();
     CATEGORIES.forEach(cat => {
       const btn = document.createElement('button');
       btn.className = 'category-btn';
       btn.textContent = cat.label;
-      btn.style.setProperty('--active-color', `var(--${char})`);
-      btn.style.setProperty('--active-bg', `var(--${char}-light)`);
+      btn.style.setProperty('--active-color', `var(--${currentChar})`);
+      btn.style.setProperty('--active-bg', `var(--${currentChar}-light)`);
       btn.onclick = () => {
         grid.querySelectorAll('.category-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
@@ -350,15 +370,14 @@
   function processResponse() {
     lastIsCrisis = checkCrisis(lastInput);
     showScreen('screen-loading');
-    pickedReaction = null;
 
     setTimeout(() => {
       const meta = CHAR_META[currentChar];
-      document.getElementById('respHero').className      = `response-hero ${currentChar}`;
-      document.getElementById('respStatus').className    = `response-status ${currentChar}`;
-      document.getElementById('respStatus').textContent  = meta.status;
+      document.getElementById('respHero').className       = `response-hero ${currentChar}`;
+      document.getElementById('respStatus').className     = `response-status ${currentChar}`;
+      document.getElementById('respStatus').textContent   = meta.status;
       document.getElementById('respCharName').textContent = meta.name;
-      document.getElementById('respStrip').className     = `response-strip ${currentChar}`;
+      document.getElementById('respStrip').className      = `response-strip ${currentChar}`;
 
       let response;
       if (lastIsCrisis) {
@@ -398,7 +417,6 @@
       btn.onclick = () => {
         row.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('picked'));
         btn.classList.add('picked');
-        pickedReaction = r.id;
         saveLog({
           character:        currentChar,
           emotion_category: currentCategory,
@@ -414,9 +432,9 @@
   function goNext() {
     document.getElementById('ventInput').value = "";
     document.getElementById('submitBtn').disabled = true;
-    currentChar = null; currentCategory = null;
-    lastInput = ""; pickedReaction = null;
-    showScreen('screen-top');
+    currentCategory = null;
+    lastInput = "";
+    showScreen('screen-char');
   }
 </script>
 </body>
